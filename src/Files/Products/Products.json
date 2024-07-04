@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Coca Cola",
+        "description": "Refrescante bebida gaseosa",
+        "code": "Coca",
+        "price": 100,
+        "stock": 1,
+        "category": "Drinks",
+        "status": true,
+        "id": 1
+    },
+    {
+        "title": "Fanta",
+        "description": "Refrescante bebida gaseosa",
+        "code": "Fanta",
+        "price": 90,
+        "stock": 1,
+        "category": "Drinks",
+        "status": true,
+        "id": 2
+    }
+]
