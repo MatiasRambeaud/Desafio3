@@ -96,7 +96,7 @@ class CartsManager {
         if (!product) {
             return "no product";
         }
-        cart.products.map(eachproduct => {
+        cart.products.forEach(eachproduct => {
             if (eachproduct.product._id == pid) {
                 cart.products.splice(eachproduct);
             }
