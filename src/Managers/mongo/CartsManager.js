@@ -4,7 +4,7 @@ import productsModel from "./models/product.model.js";
 
 class CartsManager {
 
-    async addCart(){
+    async addCart() {
         const cart = {
             products: []
         };
@@ -14,8 +14,8 @@ class CartsManager {
         }
         return addCart;
     }
-    
-    async addProduct(cid,pid,qty){
+
+    async addProduct(cid, pid, qty) {
         const cart = await cartsModel.findOne({ _id: cid });
         if (!cart) {
             return "no cart";
@@ -48,7 +48,7 @@ class CartsManager {
         }
     }
 
-    async getCart(cid){
+    async getCart(cid) {
         const cart = await cartsModel.findOne({ _id: cid }).populate("products.product");
         if (!cart) {
             return null;
@@ -56,7 +56,7 @@ class CartsManager {
         return cart;
     }
 
-    async updateCart(cid,data){
+    async updateCart(cid, data) {
         const result = await cartsModel.updateOne({ _id: cid }, { products: data });
         if (!result) {
             return null;
@@ -64,7 +64,7 @@ class CartsManager {
         return result;
     }
 
-    async updateProductQuantity(cid,pid,qty){
+    async updateProductQuantity(cid, pid, qty) {
         const cart = await cartsModel.findOne({ _id: cid });
         if (!cart) {
             return "no cart";
@@ -73,32 +73,10 @@ class CartsManager {
         if (!product) {
             return "no product";
         }
-        
+
         cart.products.forEach(eachproduct => {
             if (eachproduct.product._id == pid) {
                 eachproduct.quantity = qty;
-            }
-        });
-
-        const result = await cartsModel.updateOne({ _id: cid }, cart);
-         if (!result) {
-            return "server error";
-        }
-        return result;
-    }
-
-    async deleteProduct(cid,pid){
-        const cart = await cartsModel.findOne({ _id: cid });
-        if (!cart) {
-            return "no cart";
-        }
-        const product = await productsModel.findOne({ _id: pid });
-        if (!product) {
-            return "no product";
-        }
-        cart.products.forEach(eachproduct => {
-            if (eachproduct.product._id == pid) {
-                cart.products.splice(eachproduct);
             }
         });
 
@@ -109,7 +87,30 @@ class CartsManager {
         return result;
     }
 
-    async DeleteAllProducts(cid){
+    async deleteProduct(cid, pid) {
+        const cart = await cartsModel.findOne({ _id: cid });
+        if (!cart) {
+            return "no cart";
+        }
+        const product = await productsModel.findOne({ _id: pid });
+        if (!product) {
+            return "no product";
+        }
+
+        for (let i = cart.products.length - 1; i >= 0; i--) {
+            if (cart.products[i].product._id == pid) {
+                cart.products.splice(i, 1);
+            }
+        }
+
+        const result = await cartsModel.updateOne({ _id: cid }, cart);
+        if (!result) {
+            return "server error";
+        }
+        return result;
+    }
+
+    async DeleteAllProducts(cid) {
         const cart = await cartsModel.findOne({ _id: cid });
         if (!cart) {
             return "no cart";
